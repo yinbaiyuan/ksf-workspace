@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "product": "ksf-workspace",
+  "instance_default_name": "ksf",
+  "generated_from": "yinbaiyuan/ksf-core",
+  "revision": "04cce9b9556967cc84938582f0b074cb2dc3388f",
+  "version": "0.1.0"
+}
