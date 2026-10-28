@@ -15,11 +15,21 @@ import { products, artifactName, releaseIndexName, launcherFiles, launcherProtoc
 import { userDataRoot } from '../user-data/schema.js';
 import { committedSource } from './committed-source.js';
 import { gitBlobID, baselinePath } from './baseline.js';
+import { developmentPath } from './paths.js';
+import { gitExecutable } from '../platform/index.js';
 
 export const userDirectories = ['项目', '知识', ...Object.values(types).map(type => type.user), '@收件箱', '档案', '档案/个人', '档案/企业', '档案/项目', userDataRoot];
-export const workspaceDocuments = ['知识/knowledge.md', '档案/archive.md', 'USER.md', 'BOT.md', 'MEMORY.md'];
+// Explicit template allowlist: never discover instance content to build a workspace.
+export const knowledgeFrameworkFiles = [
+  '知识/rules/README.md', '知识/rules/认知.md',
+  '知识/rules/templates/cognition/cognition.md',
+  '知识/rules/templates/cognition/3认知/认知说明.md',
+  ...['1理论与模型/科学类比', '1理论与模型/提炼模型', '2事实与案例/定性定量', '2事实与案例/假设驱动']
+    .map(path => `知识/rules/templates/cognition/${path}/.gitkeep`),
+];
+export const workspaceDocuments = ['知识/knowledge.md', '档案/archive.md', 'USER.md', 'BOT.md', 'MEMORY.md', ...knowledgeFrameworkFiles];
 function revisionInfo(root, allowDirty) {
-  const git = args => spawnSync('/usr/bin/git', ['-C', root, ...args], { encoding: 'utf8', env: { ...process.env, GIT_TERMINAL_PROMPT: '0' } });
+  const git = args => spawnSync(gitExecutable, ['-C', root, ...args], { encoding: 'utf8', env: { ...process.env, GIT_TERMINAL_PROMPT: '0' } });
   const rev = git(['rev-parse', '--verify', 'HEAD']);
   if (rev.status !== 0 || !/^[a-f0-9]{40}\s*$/.test(rev.stdout)) fail('RELEASE_SOURCE_INVALID', 'Build a release from the Core source repository with an existing commit.');
   const state = git(['status', '--porcelain', '--untracked-files=all', '--', '.agents', 'AGENTS.md', '.gitignore', '.github', 'README.md', ':(exclude).agents/core/manifest.yaml']);
@@ -31,7 +41,7 @@ function revisionInfo(root, allowDirty) {
   return { revision: rev.stdout.trim(), dirty, builtAt: new Date(time.stdout.trim()).toISOString() };
 }
 function excluded(path) {
-  return path === '.agents/core/release.json' || /(?:^|\/)\.DS_Store$/.test(path) ||
+  return developmentPath(path) || path === '.agents/core/release.json' || /(?:^|\/)\.DS_Store$/.test(path) ||
     /^\.agents\/core\/\.manifest\.yaml\..*\.tmp$/.test(path);
 }
 export function inspectCoreArchive(bytes, { expectedVersion, expectedPlatform, expectedRepository } = {}) {
@@ -60,10 +70,11 @@ export async function buildRelease({ root, output, platform = `${process.platfor
   const staging = mkdtempSync(join(tmpdir(), 'ksf-release-'));
   try {
     // Only explicit system files are read. User directories are never scanned.
-    const sourceHashes = new Map();
+    const sourceHashes = new Map(), sourceModes = new Map();
     for (const path of [...paths, 'AGENTS.md']) {
-      const bytes = readRegular(root, path), mode = fileMode(checkedPath(root, path));
       const original = committed?.entries.get(path);
+      const bytes = readRegular(root, path), mode = fileMode(checkedPath(root, path), original?.mode === '100755' ? 0o755 : original?.mode === '100644' ? 0o644 : undefined);
+      sourceModes.set(path, mode);
       if (committed && path !== '.agents/core/manifest.yaml' && (!original || original.type !== 'blob' ||
           original.mode !== (mode === 0o755 ? '100755' : '100644') || gitBlobID(bytes) !== original.object)) source.dirty = true;
       sourceHashes.set(path, sha256(bytes));
@@ -78,7 +89,7 @@ export async function buildRelease({ root, output, platform = `${process.platfor
     await buildManifest(staging, { sourceRoot: root, builtAt: source.builtAt });
     const inventory = {}, coreEntries = [];
     for (const path of [...paths.filter(p => p !== '.agents/core/manifest.yaml'), '.agents/core/manifest.yaml', 'AGENTS.md'].sort()) {
-      const bytes = readRegular(staging, path), mode = fileMode(checkedPath(staging, path));
+      const bytes = readRegular(staging, path), mode = fileMode(checkedPath(staging, path), sourceModes.get(path));
       inventory[path] = { sha256: sha256(bytes), mode, source_path: path };
       coreEntries.push({ path, bytes, mode });
     }

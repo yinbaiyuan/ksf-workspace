@@ -1,0 +1,655 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-25T10:08:00Z",
+  "title": "Design System: KSF PC Web OS",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "操作蓝",
+        "tonalRamp": [
+          "oklch(15.00% 0.18987 257.24)",
+          "oklch(26.43% 0.18987 257.24)",
+          "oklch(37.86% 0.18987 257.24)",
+          "oklch(49.29% 0.18987 257.24)",
+          "oklch(60.71% 0.18987 257.24)",
+          "oklch(72.14% 0.18987 257.24)",
+          "oklch(83.57% 0.18987 257.24)",
+          "oklch(95.00% 0.18987 257.24)"
+        ]
+      },
+      "focus": {
+        "role": "secondary",
+        "displayName": "focus",
+        "tonalRamp": [
+          "oklch(15.00% 0.14841 256.38)",
+          "oklch(26.43% 0.14841 256.38)",
+          "oklch(37.86% 0.14841 256.38)",
+          "oklch(49.29% 0.14841 256.38)",
+          "oklch(60.71% 0.14841 256.38)",
+          "oklch(72.14% 0.14841 256.38)",
+          "oklch(83.57% 0.14841 256.38)",
+          "oklch(95.00% 0.14841 256.38)"
+        ]
+      },
+      "action-start": {
+        "role": "primary",
+        "displayName": "高光蓝上端",
+        "tonalRamp": [
+          "oklch(15.00% 0.17254 253.86)",
+          "oklch(26.43% 0.17254 253.86)",
+          "oklch(37.86% 0.17254 253.86)",
+          "oklch(49.29% 0.17254 253.86)",
+          "oklch(60.71% 0.17254 253.86)",
+          "oklch(72.14% 0.17254 253.86)",
+          "oklch(83.57% 0.17254 253.86)",
+          "oklch(95.00% 0.17254 253.86)"
+        ]
+      },
+      "action-end": {
+        "role": "primary",
+        "displayName": "按钮蓝下端",
+        "tonalRamp": [
+          "oklch(15.00% 0.17611 256.51)",
+          "oklch(26.43% 0.17611 256.51)",
+          "oklch(37.86% 0.17611 256.51)",
+          "oklch(49.29% 0.17611 256.51)",
+          "oklch(60.71% 0.17611 256.51)",
+          "oklch(72.14% 0.17611 256.51)",
+          "oklch(83.57% 0.17611 256.51)",
+          "oklch(95.00% 0.17611 256.51)"
+        ]
+      },
+      "action-hover-end": {
+        "role": "primary",
+        "displayName": "悬停蓝下端",
+        "tonalRamp": [
+          "oklch(15.00% 0.18184 256.34)",
+          "oklch(26.43% 0.18184 256.34)",
+          "oklch(37.86% 0.18184 256.34)",
+          "oklch(49.29% 0.18184 256.34)",
+          "oklch(60.71% 0.18184 256.34)",
+          "oklch(72.14% 0.18184 256.34)",
+          "oklch(83.57% 0.18184 256.34)",
+          "oklch(95.00% 0.18184 256.34)"
+        ]
+      },
+      "selection-ink": {
+        "role": "secondary",
+        "displayName": "selection-ink"
+      },
+      "round-badge-end": {
+        "role": "primary",
+        "displayName": "轮次数字蓝下端",
+        "tonalRamp": [
+          "oklch(15.00% 0.18558 256.82)",
+          "oklch(26.43% 0.18558 256.82)",
+          "oklch(37.86% 0.18558 256.82)",
+          "oklch(49.29% 0.18558 256.82)",
+          "oklch(60.71% 0.18558 256.82)",
+          "oklch(72.14% 0.18558 256.82)",
+          "oklch(83.57% 0.18558 256.82)",
+          "oklch(95.00% 0.18558 256.82)"
+        ]
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "高光与白字",
+        "tonalRamp": [
+          "oklch(15.00% 0.00000 89.88)",
+          "oklch(26.43% 0.00000 89.88)",
+          "oklch(37.86% 0.00000 89.88)",
+          "oklch(49.29% 0.00000 89.88)",
+          "oklch(60.71% 0.00000 89.88)",
+          "oklch(72.14% 0.00000 89.88)",
+          "oklch(83.57% 0.00000 89.88)",
+          "oklch(95.00% 0.00000 89.88)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "实色文稿",
+        "tonalRamp": [
+          "oklch(15.00% 0.00170 247.84)",
+          "oklch(26.43% 0.00170 247.84)",
+          "oklch(37.86% 0.00170 247.84)",
+          "oklch(49.29% 0.00170 247.84)",
+          "oklch(60.71% 0.00170 247.84)",
+          "oklch(72.14% 0.00170 247.84)",
+          "oklch(83.57% 0.00170 247.84)",
+          "oklch(95.00% 0.00170 247.84)"
+        ]
+      },
+      "foreground": {
+        "role": "neutral",
+        "displayName": "正文深色",
+        "tonalRamp": [
+          "oklch(15.00% 0.02410 264.04)",
+          "oklch(26.43% 0.02410 264.04)",
+          "oklch(37.86% 0.02410 264.04)",
+          "oklch(49.29% 0.02410 264.04)",
+          "oklch(60.71% 0.02410 264.04)",
+          "oklch(72.14% 0.02410 264.04)",
+          "oklch(83.57% 0.02410 264.04)",
+          "oklch(95.00% 0.02410 264.04)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "辅助灰",
+        "tonalRamp": [
+          "oklch(15.00% 0.03720 259.95)",
+          "oklch(26.43% 0.03720 259.95)",
+          "oklch(37.86% 0.03720 259.95)",
+          "oklch(49.29% 0.03720 259.95)",
+          "oklch(60.71% 0.03720 259.95)",
+          "oklch(72.14% 0.03720 259.95)",
+          "oklch(83.57% 0.03720 259.95)",
+          "oklch(95.00% 0.03720 259.95)"
+        ]
+      },
+      "directory-text": {
+        "role": "neutral",
+        "displayName": "目录深色"
+      },
+      "directory-muted": {
+        "role": "neutral",
+        "displayName": "目录辅助色"
+      },
+      "navigation-link": {
+        "role": "secondary",
+        "displayName": "navigation-link"
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "文稿细分隔",
+        "tonalRamp": [
+          "oklch(15.00% 0.01331 262.38)",
+          "oklch(26.43% 0.01331 262.38)",
+          "oklch(37.86% 0.01331 262.38)",
+          "oklch(49.29% 0.01331 262.38)",
+          "oklch(60.71% 0.01331 262.38)",
+          "oklch(72.14% 0.01331 262.38)",
+          "oklch(83.57% 0.01331 262.38)",
+          "oklch(95.00% 0.01331 262.38)"
+        ]
+      },
+      "ground": {
+        "role": "neutral",
+        "displayName": "背景蓝灰"
+      },
+      "glass-panel": {
+        "role": "secondary",
+        "displayName": "glass-panel"
+      },
+      "glass-workspace": {
+        "role": "secondary",
+        "displayName": "glass-workspace"
+      },
+      "glass-chat": {
+        "role": "secondary",
+        "displayName": "glass-chat"
+      },
+      "glass-round": {
+        "role": "secondary",
+        "displayName": "glass-round"
+      },
+      "glass-toolbar": {
+        "role": "secondary",
+        "displayName": "glass-toolbar"
+      },
+      "glass-lens": {
+        "role": "secondary",
+        "displayName": "glass-lens"
+      },
+      "fallback-surface": {
+        "role": "neutral",
+        "displayName": "实色回退",
+        "tonalRamp": [
+          "oklch(15.00% 0.01199 259.82)",
+          "oklch(26.43% 0.01199 259.82)",
+          "oklch(37.86% 0.01199 259.82)",
+          "oklch(49.29% 0.01199 259.82)",
+          "oklch(60.71% 0.01199 259.82)",
+          "oklch(72.14% 0.01199 259.82)",
+          "oklch(83.57% 0.01199 259.82)",
+          "oklch(95.00% 0.01199 259.82)"
+        ]
+      },
+      "search-surface": {
+        "role": "neutral",
+        "displayName": "搜索半透明白"
+      },
+      "search-focus-surface": {
+        "role": "neutral",
+        "displayName": "搜索焦点白"
+      },
+      "relation-surface": {
+        "role": "neutral",
+        "displayName": "浅蓝关系面",
+        "tonalRamp": [
+          "oklch(15.00% 0.01590 253.90)",
+          "oklch(26.43% 0.01590 253.90)",
+          "oklch(37.86% 0.01590 253.90)",
+          "oklch(49.29% 0.01590 253.90)",
+          "oklch(60.71% 0.01590 253.90)",
+          "oklch(72.14% 0.01590 253.90)",
+          "oklch(83.57% 0.01590 253.90)",
+          "oklch(95.00% 0.01590 253.90)"
+        ]
+      },
+      "relation-text": {
+        "role": "primary",
+        "displayName": "关系蓝",
+        "tonalRamp": [
+          "oklch(15.00% 0.17067 255.00)",
+          "oklch(26.43% 0.17067 255.00)",
+          "oklch(37.86% 0.17067 255.00)",
+          "oklch(49.29% 0.17067 255.00)",
+          "oklch(60.71% 0.17067 255.00)",
+          "oklch(72.14% 0.17067 255.00)",
+          "oklch(83.57% 0.17067 255.00)",
+          "oklch(95.00% 0.17067 255.00)"
+        ]
+      },
+      "process-surface": {
+        "role": "neutral",
+        "displayName": "过程记录面",
+        "tonalRamp": [
+          "oklch(15.00% 0.00909 258.34)",
+          "oklch(26.43% 0.00909 258.34)",
+          "oklch(37.86% 0.00909 258.34)",
+          "oklch(49.29% 0.00909 258.34)",
+          "oklch(60.71% 0.00909 258.34)",
+          "oklch(72.14% 0.00909 258.34)",
+          "oklch(83.57% 0.00909 258.34)",
+          "oklch(95.00% 0.00909 258.34)"
+        ]
+      },
+      "code-surface": {
+        "role": "neutral",
+        "displayName": "代码与附件面",
+        "tonalRamp": [
+          "oklch(15.00% 0.00910 258.34)",
+          "oklch(26.43% 0.00910 258.34)",
+          "oklch(37.86% 0.00910 258.34)",
+          "oklch(49.29% 0.00910 258.34)",
+          "oklch(60.71% 0.00910 258.34)",
+          "oklch(72.14% 0.00910 258.34)",
+          "oklch(83.57% 0.00910 258.34)",
+          "oklch(95.00% 0.00910 258.34)"
+        ]
+      },
+      "search-match": {
+        "role": "secondary",
+        "displayName": "搜索暖黄",
+        "tonalRamp": [
+          "oklch(15.00% 0.10438 94.88)",
+          "oklch(26.43% 0.10438 94.88)",
+          "oklch(37.86% 0.10438 94.88)",
+          "oklch(49.29% 0.10438 94.88)",
+          "oklch(60.71% 0.10438 94.88)",
+          "oklch(72.14% 0.10438 94.88)",
+          "oklch(83.57% 0.10438 94.88)",
+          "oklch(95.00% 0.10438 94.88)"
+        ]
+      },
+      "search-match-text": {
+        "role": "neutral",
+        "displayName": "命中深色",
+        "tonalRamp": [
+          "oklch(15.00% 0.04982 83.08)",
+          "oklch(26.43% 0.04982 83.08)",
+          "oklch(37.86% 0.04982 83.08)",
+          "oklch(49.29% 0.04982 83.08)",
+          "oklch(60.71% 0.04982 83.08)",
+          "oklch(72.14% 0.04982 83.08)",
+          "oklch(83.57% 0.04982 83.08)",
+          "oklch(95.00% 0.04982 83.08)"
+        ]
+      },
+      "text-selection": {
+        "role": "neutral",
+        "displayName": "文本选择面",
+        "tonalRamp": [
+          "oklch(15.00% 0.04865 254.08)",
+          "oklch(26.43% 0.04865 254.08)",
+          "oklch(37.86% 0.04865 254.08)",
+          "oklch(49.29% 0.04865 254.08)",
+          "oklch(60.71% 0.04865 254.08)",
+          "oklch(72.14% 0.04865 254.08)",
+          "oklch(83.57% 0.04865 254.08)",
+          "oklch(95.00% 0.04865 254.08)"
+        ]
+      },
+      "text-selection-ink": {
+        "role": "neutral",
+        "displayName": "文本选择深色",
+        "tonalRamp": [
+          "oklch(15.00% 0.09444 255.64)",
+          "oklch(26.43% 0.09444 255.64)",
+          "oklch(37.86% 0.09444 255.64)",
+          "oklch(49.29% 0.09444 255.64)",
+          "oklch(60.71% 0.09444 255.64)",
+          "oklch(72.14% 0.09444 255.64)",
+          "oklch(83.57% 0.09444 255.64)",
+          "oklch(95.00% 0.09444 255.64)"
+        ]
+      },
+      "warning": {
+        "role": "neutral",
+        "displayName": "警告棕",
+        "tonalRamp": [
+          "oklch(15.00% 0.09747 74.38)",
+          "oklch(26.43% 0.09747 74.38)",
+          "oklch(37.86% 0.09747 74.38)",
+          "oklch(49.29% 0.09747 74.38)",
+          "oklch(60.71% 0.09747 74.38)",
+          "oklch(72.14% 0.09747 74.38)",
+          "oklch(83.57% 0.09747 74.38)",
+          "oklch(95.00% 0.09747 74.38)"
+        ]
+      },
+      "error": {
+        "role": "neutral",
+        "displayName": "错误红",
+        "tonalRamp": [
+          "oklch(15.00% 0.14184 23.88)",
+          "oklch(26.43% 0.14184 23.88)",
+          "oklch(37.86% 0.14184 23.88)",
+          "oklch(49.29% 0.14184 23.88)",
+          "oklch(60.71% 0.14184 23.88)",
+          "oklch(72.14% 0.14184 23.88)",
+          "oklch(83.57% 0.14184 23.88)",
+          "oklch(95.00% 0.14184 23.88)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "context-title": {
+        "displayName": "当前轮次主题",
+        "purpose": "主要阅读主题，优先于原聊天标题。"
+      },
+      "section": {
+        "displayName": "章节标题",
+        "purpose": "请求、路由与结果的正文分区。"
+      },
+      "body": {
+        "displayName": "阅读正文",
+        "purpose": "15px、1.85行高，最长72ch。"
+      },
+      "navigation": {
+        "displayName": "导航标题",
+        "purpose": "紧凑的聊天与轮次标题。"
+      },
+      "caption": {
+        "displayName": "辅助信息",
+        "purpose": "时间、说明、计数及搜索输入。"
+      },
+      "route-value": {
+        "displayName": "路由值",
+        "purpose": "能力、归属与记录值。"
+      },
+      "body-subheading": {
+        "displayName": "正文子标题",
+        "purpose": "Markdown三级标题。"
+      },
+      "button": {
+        "displayName": "按钮文字",
+        "purpose": "常规动作；小按钮局部12px。"
+      },
+      "round-number": {
+        "displayName": "轮次数字",
+        "purpose": "等宽数字，当前项置于高光蓝色块。"
+      }
+    },
+    "shadows": [
+      {
+        "name": "glass-edge",
+        "value": "none",
+        "purpose": "原始Surface的轻接触阴影；静态预览不模拟形变或折射。"
+      },
+      {
+        "name": "glass-contact",
+        "value": "0 4px 12px rgb(0 0 0 / .1)",
+        "purpose": "原始Surface的轻接触阴影；静态预览不模拟形变或折射。"
+      },
+      {
+        "name": "control-contact",
+        "value": "0 1px 3px rgb(0 0 0 / .08)",
+        "purpose": "原始Surface的轻接触阴影；静态预览不模拟形变或折射。"
+      },
+      {
+        "name": "document-edge",
+        "value": "0 2px 12px #142E4D14",
+        "purpose": "原始Surface的轻接触阴影；静态预览不模拟形变或折射。"
+      },
+      {
+        "name": "selected-chat",
+        "value": "0 4px 12px rgb(0 0 0 / .1)",
+        "purpose": "原始Surface的轻接触阴影；静态预览不模拟形变或折射。"
+      },
+      {
+        "name": "selected-round",
+        "value": "0 4px 12px rgb(0 0 0 / .1)",
+        "purpose": "原始Surface的轻接触阴影；静态预览不模拟形变或折射。"
+      },
+      {
+        "name": "sheet",
+        "value": "0 18px 56px #142E4D38",
+        "purpose": "原始Surface的轻接触阴影；静态预览不模拟形变或折射。"
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(.16,1,.3,1)",
+        "purpose": "控件状态与抽屉的共同缓动。"
+      },
+      {
+        "name": "state-transition",
+        "value": "160ms",
+        "purpose": "颜色、边界、阴影、按压与遮罩状态。"
+      },
+      {
+        "name": "sheet-enter",
+        "value": "180ms",
+        "purpose": "来源或目录抽屉进入。"
+      },
+      {
+        "name": "press",
+        "value": "translateY(1px)",
+        "purpose": "可操作按钮按下反馈。"
+      },
+      {
+        "name": "reduced-motion",
+        "value": "none",
+        "purpose": "减少动态效果时关闭动画、过渡和平滑滚动。"
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "pc-directory-drawer",
+        "value": "1099px"
+      },
+      {
+        "name": "reader-hide-count",
+        "value": "650px"
+      },
+      {
+        "name": "reader-compact-controls",
+        "value": "610px"
+      },
+      {
+        "name": "reader-compact-route-labels",
+        "value": "560px"
+      }
+    ],
+    "desktop": {
+      "statusbar": 32,
+      "dock": 70,
+      "windowTitlebar": 42,
+      "windowDefault": [
+        1180,
+        740
+      ],
+      "windowMin": [
+        480,
+        420
+      ],
+      "containerBreakpoints": [
+        760,
+        1100
+      ],
+      "columns": 12,
+      "rowHeight": 46,
+      "gap": 20,
+      "materialProfiles": [
+        "window",
+        "dock",
+        "statusbar",
+        "card"
+      ]
+    }
+  },
+  "components": [
+    {
+      "name": "高光蓝按钮",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "主要操作使用修复对比度后的蓝色渐变、白字和窄边高光。",
+      "html": "<button class=\"ds-primary\">重试</button>",
+      "css": ".ds-primary{font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"PingFang SC\",\"Microsoft YaHei\",sans-serif;font-size:13px;font-weight:500;line-height:1.3;min-height:34px;padding:7px 10px;border:1px solid transparent;border-radius:9px;cursor:pointer;transition:background-color 160ms cubic-bezier(.16,1,.3,1),color 160ms cubic-bezier(.16,1,.3,1),box-shadow 160ms cubic-bezier(.16,1,.3,1),transform 160ms cubic-bezier(.16,1,.3,1);color:#FFFFFF;background:linear-gradient(#0877D8,#0865D3);box-shadow:inset 0 1px #7DBBFA,0 2px 4px #245EA729;}.ds-primary:hover{background:linear-gradient(#0877D8,#086AD4);}.ds-primary:focus-visible{outline:2px solid var(--color-primary,#0066D6);outline-offset:3px;}.ds-primary:active:not(:disabled){transform:translateY(1px);}.ds-primary:disabled{opacity:.45;cursor:default;}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none;}}\n.ds-primary{background: var(--color-primary);color: white;background: linear-gradient(#0877D8,#0865D3);box-shadow: inset 0 1px #7DBBFA, 0 2px 4px #245EA729;background: linear-gradient(#0872D4,#0965CB);box-shadow: inset 0 1px #FFFFFF66, 0 2px 4px #245EA724;}\n.ds-primary:hover{background: #1838B8;background: linear-gradient(#0877D8,#086AD4);}"
+    },
+    {
+      "name": "浅色描边按钮",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "实色文稿上的次要操作，白面与浅色底缘呈现轻微厚度。",
+      "html": "<button class=\"ds-outline\">查看原文</button>",
+      "css": ".ds-outline{font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"PingFang SC\",\"Microsoft YaHei\",sans-serif;font-size:13px;font-weight:500;line-height:1.3;min-height:34px;padding:7px 10px;border:1px solid transparent;border-radius:9px;cursor:pointer;transition:background-color 160ms cubic-bezier(.16,1,.3,1),color 160ms cubic-bezier(.16,1,.3,1),box-shadow 160ms cubic-bezier(.16,1,.3,1),transform 160ms cubic-bezier(.16,1,.3,1);color:#3F5574;background:linear-gradient(#FFFFFF,#F4F7FC);border-color:#DCE4EF;box-shadow:0 2px 4px #23477512,inset 0 1px 0 #FFFFFF;}.ds-outline:hover{background:linear-gradient(#FFFFFF,#EAF3FF);border-color:#A8C9EE;}.ds-outline:focus-visible{outline:2px solid var(--color-primary,#0066D6);outline-offset:3px;}.ds-outline:active:not(:disabled){transform:translateY(1px);}.ds-outline:disabled{opacity:.45;cursor:default;}@media(prefers-reduced-motion:reduce){.ds-outline{transition:none;}}\n.ds-outline{color: #424c57;border-color: var(--color-border);background: white;background: linear-gradient(#FFFFFF,#F4F7FC);border-color: #DCE4EF;color: #3F5574;box-shadow: var(--control-shadow);background: linear-gradient(#FFFFFFD9,#F3F6FCE6);border-color: #CAD6E5;box-shadow: var(--control-shadow);}"
+    },
+    {
+      "name": "辅助按钮",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "复制、展开等次要动作使用透明背景，悬停出现浅蓝面。",
+      "html": "<button class=\"ds-ghost\">复制</button>",
+      "css": ".ds-ghost{font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"PingFang SC\",\"Microsoft YaHei\",sans-serif;font-size:13px;font-weight:500;line-height:1.3;min-height:34px;padding:7px 10px;border:1px solid transparent;border-radius:9px;cursor:pointer;transition:background-color 160ms cubic-bezier(.16,1,.3,1),color 160ms cubic-bezier(.16,1,.3,1),box-shadow 160ms cubic-bezier(.16,1,.3,1),transform 160ms cubic-bezier(.16,1,.3,1);color:var(--color-muted,#58657A);background:transparent;}.ds-ghost:hover{color:var(--color-foreground,#202632);background:#E9F0FB;}.ds-ghost:focus-visible{outline:2px solid var(--color-primary,#0066D6);outline-offset:3px;}.ds-ghost:active:not(:disabled){transform:translateY(1px);}.ds-ghost:disabled{opacity:.45;cursor:default;}@media(prefers-reduced-motion:reduce){.ds-ghost{transition:none;}}"
+    },
+    {
+      "name": "玻璃搜索字段",
+      "kind": "input",
+      "refersTo": "search-field",
+      "description": "目录搜索带下陷内阴影；聚焦时增加白面浓度和蓝色光圈。",
+      "html": "<label class=\"ds-search\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg><input aria-label=\"搜索聊天\" placeholder=\"搜索聊天\" /></label>",
+      "css": ".ds-search{display:flex;align-items:center;gap:8px;width:232px;height:35px;padding:0 10px;border:1px solid #193D5A26;border-radius:10px;background:#FFFFFF40;color:#243147;box-shadow:inset 0 1px 2px #193D5A12}.ds-search input{min-width:0;width:100%;border:0;background:transparent;color:inherit;font:12px system-ui}.ds-search:focus-within{background:#FFFFFF99;outline:2px solid #0869CB}"
+    },
+    {
+      "name": "磨砂目录与当前聊天",
+      "kind": "nav",
+      "refersTo": "directory",
+      "description": "原始Surface的已知背景副本配方。静态预览为实色回退，实际折射与背景见工作台。",
+      "html": "<div class=\"ds-material-stage\"><nav class=\"ds-directory\" aria-label=\"归属聊天\"><p class=\"ds-group\">项目</p><button class=\"ds-target\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/></svg><strong>ksf-develop</strong></button><button class=\"ds-chat\" aria-current=\"page\"><strong>工作台视觉与阅读体验</strong><small>10/25 10:01 · 24 轮</small></button><button class=\"ds-chat\"><strong>能力路由与对话归档</strong><small>10/24 16:30 · 18 轮</small></button></nav></div>",
+      "css": ".ds-material-stage{padding:18px;background:#B8C7D8}.ds-directory{width:264px;padding:20px 16px;border-radius:22px;background:#E5EBF2;color:#17283E;font:13px/1.55 system-ui;box-shadow:0 4px 12px #0000001A}.ds-group{font-size:12px;margin:0 0 16px;color:#243147}.ds-target,.ds-chat{display:flex;width:100%;gap:8px;border:0;border-radius:11px;padding:10px;background:transparent;color:inherit;text-align:left}.ds-chat[aria-current]{background:#FFFFFFB8;box-shadow:0 4px 12px #0000001A}.ds-chat strong{display:block;color:#003C78;font-size:13px;font-weight:600}.ds-chat small{display:block;margin-top:4px;font-size:12px;color:#243147}"
+    },
+    {
+      "name": "当前轮次",
+      "kind": "nav",
+      "refersTo": "selected-round",
+      "description": "当前轮次用浅色浮起面，蓝色数字标记区分当前聊天的整块蓝色。",
+      "html": "<div class=\"ds-round-list\"><button class=\"ds-round\" aria-current=\"page\"><span class=\"ds-round-title\"><strong>24</strong><span>工作台视觉与阅读体验</span></span><small>10/25 10:01 · 本项目</small></button></div>",
+      "css": ".ds-round-list{padding:16px;background:#D8E2EE}.ds-round{display:block;width:264px;text-align:left;padding:11px 10px;border:0;border-radius:11px;background:#FFFFFFB8;color:#17283E;box-shadow:0 4px 12px #0000001A}.ds-round-title{display:flex;gap:9px;font:13px/1.55 system-ui}.ds-round-title strong{background:#096AD7;color:white;border-radius:6px;padding:0 3px}.ds-round small{display:block;margin:6px 0 0 31px;color:#243147;font-size:12px}"
+    },
+    {
+      "name": "归属标记",
+      "kind": "chip",
+      "refersTo": "relation-primary",
+      "description": "轻色面与文字共同表达归属，不作为可按压按钮。",
+      "html": "<span class=\"ds-relation\">本项目</span>",
+      "css": ".ds-relation{font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"PingFang SC\",\"Microsoft YaHei\",sans-serif;display:inline-block;font-size:12px;font-weight:400;line-height:1.6;padding:1px 5px;border-radius:5px;color:#0066C7;background:#EDF5FF;}"
+    },
+    {
+      "name": "白色阅读文稿",
+      "kind": "card",
+      "refersTo": "reader",
+      "description": "实色文稿、19px章节与15px正文；请求无额外卡片，过程记录局部折叠。",
+      "html": "<article class=\"ds-document\"><section><h2>请求</h2><header>用户请求 <time>10/25 10:01</time></header><p>现代科技有质感，比如毛玻璃、拟物这种苹果风格。</p></section><section><h2>结果</h2><p>目录与轮次使用透光导航，正文保留白色文稿。</p><details class=\"ds-process\"><summary>过程记录</summary><div><p>核对本轮原始安排与来源。</p></div></details></section></article>",
+      "css": ".ds-document{font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"PingFang SC\",\"Microsoft YaHei\",sans-serif;max-width:860px;padding:25px 28px;color:var(--ink,#202632);background:var(--paper,#FDFEFF);border-radius:17px;box-shadow:0 3px 10px #3250780A,0 0 0 1px #FFFFFF91;}.ds-document h2{font-size:19px;line-height:1.5;font-weight:600;margin:0 0 16px;}.ds-document header{font-size:12px;line-height:1.6;color:var(--color-muted,#58657A);margin-bottom:10px;}.ds-document time{font-variant-numeric:tabular-nums;}.ds-document p{max-width:72ch;font-size:15px;line-height:1.85;font-weight:400;margin:0 0 14px;overflow-wrap:anywhere;}.ds-document section+section{margin-top:26px;padding-top:24px;border-top:1px solid var(--color-border,#E3E8F1);}.ds-process{margin-top:22px;padding-top:9px;border-top:1px solid var(--color-border,#E3E8F1);}.ds-process summary{font-size:12px;line-height:1.6;min-height:32px;color:var(--color-muted,#58657A);cursor:pointer;}.ds-process summary:hover{color:var(--ink,#202632);}.ds-process summary:focus-visible{outline:2px solid var(--color-primary,#0066D6);outline-offset:3px;}.ds-process>div{margin-top:12px;padding:17px;background:#F1F5FB;border-radius:11px;}.ds-process p:last-child{margin-bottom:0;}\n.ds-document{background: #fff;background: var(--paper);box-shadow: 0 3px 10px #3250780A, 0 0 0 1px #FFFFFF91;background: #FFFFFF33;-webkit-backdrop-filter: blur(18px) saturate(120%);backdrop-filter: blur(18px) saturate(120%);box-shadow: 0 4px 18px #203D6114, 0 0 0 1px #FFFFFFA6;background: #FDFEFF;-webkit-backdrop-filter: none;backdrop-filter: none;}"
+    },
+    {
+      "name": "章节入口",
+      "kind": "nav",
+      "refersTo": "section-tab",
+      "description": "凹槽组与独立滑动玻璃选中面；静态预览仅展示当前状态。",
+      "html": "<nav class=\"ds-sections\" aria-label=\"本轮章节\"><button aria-current=\"location\">请求</button><button>路由</button><button>结果</button><button class=\"ds-record\">记录信息</button></nav>",
+      "css": ".ds-sections{display:flex;gap:2px;padding:3px;border-radius:999px;background:#A4B9CF26;font:13px/1.3 system-ui}.ds-sections button{border:0;border-radius:999px;padding:7px 11px;background:transparent;color:#425670;font:inherit}.ds-sections button[aria-current]{background:#FFFFFF99;color:#003C78;box-shadow:0 1px 3px #00000014}.ds-record{margin-left:8px}"
+    },
+    {
+      "name": "圆形阅读工具",
+      "kind": "button",
+      "description": "32px Surface玻璃按钮；静态预览只展示实色回退，不展示按压弹簧。",
+      "html": "<div class=\"ds-reader-tool-group\"><button class=\"ds-reader-tool\" aria-label=\"专注阅读\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/><path d=\"M9 3v18\"/></svg></button><button class=\"ds-reader-tool\" aria-label=\"刷新\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" aria-hidden=\"true\"><path d=\"M20 7v5h-5M4 17v-5h5M6 8a7 7 0 0 1 12-2l2 3M4 15l2 3a7 7 0 0 0 12-2\"/></svg></button></div>",
+      "css": ".ds-reader-tool-group{display:flex;gap:8px;padding:16px;background:#F7FAFD}.ds-reader-tool{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border:0;border-radius:50%;background:#FFFFFF9E;color:#17283E;box-shadow:0 4px 12px #0000001A}.ds-reader-tool:focus-visible{outline:2px solid #004C9E;outline-offset:3px}",
+      "refersTo": "reader-tool"
+    }
+  ],
+  "narrative": {
+    "northStar": "玻璃工作台",
+    "overview": "工作台用于长期核对归档对话与能力安排。本版按用户指定的liquid-glass-web原始Skill重新实现材质。背景为原创雪山、登山者与日出云海，表达攀登高峰、持续努力与光明前景；不写题字。两个玻璃导航壳透出真实图像，当前项保持清晰，长文维持白色文稿。\n\n前一版的多圈倒角、自制边缘与手写章节滤镜已移除。产品保留原始Surface的图像副本、形状位移、烘焙方向高光、bleed和弹簧配方，只作React、CSP和资源上限适配。原始lg-panel／lg-button与工作台包装在同图同尺寸下对照；用户视觉评价仍以实际工作台为准。",
+    "keyCharacteristics": [
+      "高峰晨光图像以完整背景展示，导航独立白色色层保证文字可读。",
+      "面板使用原始Surface的对齐背景副本，折射集中边缘，取消额外厚边与多重内阴影。",
+      "按钮按下时透镜变宽变矮，释放由原始createSpring回弹，文字与原生命中区域保持稳定。",
+      "章节采用真实UI标签的装饰副本与弹簧指示器，归档正文和消息记录不复制、不进滤镜。"
+    ],
+    "rules": [
+      {
+        "name": "The Material Color Rule",
+        "body": "环境光位于玻璃后方，阅读文稿维持实色；不能用一张不透明渐变面冒充磨砂导航。",
+        "section": "colors"
+      },
+      {
+        "name": "The State Evidence Rule",
+        "body": "当前聊天、当前轮次、搜索命中和文本选择各有独立样式，并保留名称、位置或状态文字。",
+        "section": "colors"
+      },
+      {
+        "name": "The Reading Hierarchy Rule",
+        "body": "当前轮次主题优先于聊天原题；正文连续阅读，技术标识才使用等宽字体。",
+        "section": "typography"
+      },
+      {
+        "name": "The Reading Axis Rule",
+        "body": "标题、章节和正文共用同一阅读起点；专注模式和宽窗口不能让主题脱离文稿轴线。",
+        "section": "layout"
+      },
+      {
+        "name": "The Opaque Document Rule",
+        "body": "毛玻璃属于导航、外壳与临时抽屉；长文背景保持实色，环境光不能穿过正文。",
+        "section": "elevation"
+      },
+      {
+        "name": "The Evidence Row Rule",
+        "body": "路由变化维持连续信息行，以对齐、细线和留白串联；玻璃和接触阴影不扩散到每一项能力。",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "**Do** 按原始Skill建立同背景基准，保留真正背景副本、原始形状高光、少量接触阴影与弹簧反馈。",
+      "**Do** 区分蓝色标题的当前聊天透镜、带数字标记的当前轮次与白色正文，维持各层文字对比。",
+      "**Do** 在默认、窄 PC 窗口和专注模式中保持标题、章节与正文的统一阅读轴线。",
+      "**Do** 按容器尺度使用柔和圆角，按钮保留短促悬停、按压和可见键盘焦点。",
+      "**Do** 保留实色回退、减少透明度与减少动态效果支持。",
+      "**Do** 使用离线系统中文字体与统一 Lucide 线性 SVG；长文保持 72ch 以内的行宽。"
+    ],
+    "donts": [
+      "**Don't** 恢复已被用户否决的钴蓝整块目录、荧黄当前聊天或 paper／stone／night 冷淡平面方向。",
+      "**Don't** 叠自制多圈倒角、凹凸阴影或手写滤镜冒充原始玻璃；不在没有图像输入时只加大blur。",
+      "**Don't** 为每条路由和每项能力增加玻璃卡片、厚阴影或多层边框。",
+      "**Don't** 把浅色辅助字放到低对比材质面，或只靠颜色表达状态；小号白字需覆盖整个渐变区间达到普通文字对比度。",
+      "**Don't** 把原聊天标题提升到当前轮次主题之上，或用导航截断方式处理阅读正文。",
+      "**Don't** 将本轮实现、代码检查或静态审查写成用户验收，也不据此宣称手机端或完整 WCAG 认证通过。"
+    ]
+  }
+}

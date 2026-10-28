@@ -1,3 +1,6 @@
+import {launcherInvocation,platform as nativePlatform} from '../src/platform/index.js';
+import {fileMode} from '../src/distribution/files.js';
+import {fixtureTarget} from './helpers/distribution-fixture.js';
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { cpSync, existsSync, lstatSync, readFileSync, writeFileSync, symlinkSync, rmSync, realpathSync, readdirSync } from 'node:fs';
@@ -6,7 +9,7 @@ import { join } from 'node:path';
 import { gzipSync, gunzipSync } from 'node:zlib';
 import { createArchive, readArchive } from '../src/distribution/archive.js';
 import { compareVersions, configuration, installedManifest, releaseReceipt, isBranch, sha256, stableJSON, writeAtomic } from '../src/distribution/common.js';
-import { buildRelease, inspectCoreArchive, workspaceDocuments } from '../src/distribution/release.js';
+import { buildRelease, inspectCoreArchive, workspaceDocuments, knowledgeFrameworkFiles } from '../src/distribution/release.js';
 import { inspectReleaseDirectory } from '../src/distribution/publish.js';
 import { parseDistributionArgs } from '../src/commands/distribution.js';
 import { distributionFixture, git } from './helpers/distribution-fixture.js';
@@ -52,14 +55,15 @@ test('Core accepts ordinary branch names while rejecting invalid refs', () => {
 test('complete release includes the system and empty user skeleton, excluding private data and history', async t => {
   const f = await distributionFixture(t);
   writeAtomic(join(f.root, '知识/fictional-private.md'), 'FICTIONAL_PRIVATE_SENTINEL');
+  writeAtomic(join(f.root, '知识/rules/README.md'), 'FICTIONAL_PRIVATE_SENTINEL instance rules');
   for (const path of ['USER.md', 'BOT.md', 'MEMORY.md']) writeAtomic(join(f.root, path), 'FICTIONAL_PRIVATE_SENTINEL ' + path);
   const result = await buildRelease({ root: f.root, output: join(f.directory, 'another-build') });
   const loaded = inspectReleaseDirectory(f.root, result.output);
   const entries = loaded.workspaces[0].entries;
   assert.equal(result.template, join(result.output, 'ksf-workspace'));
   assert.deepEqual(result.products, { core: 'ksf-core', workspace: 'ksf-workspace', instance: 'ksf' });
-  assert.equal(result.index.platforms['darwin-arm64'].workspace.name, 'ksf-workspace-0.1.0-darwin-arm64.tar.gz');
-  assert.deepEqual(readdirSync(result.output).sort(), ['ksf-workspace', 'ksf-core-0.1.0-darwin-arm64.tar.gz', 'ksf-workspace-0.1.0-darwin-arm64.tar.gz', 'ksf-core-release.json'].sort());
+  assert.equal(result.index.platforms[fixtureTarget].workspace.name, `ksf-workspace-0.1.0-${fixtureTarget}.tar.gz`);
+  assert.deepEqual(readdirSync(result.output).sort(), ['ksf-workspace', `ksf-core-0.1.0-${fixtureTarget}.tar.gz`, `ksf-workspace-0.1.0-${fixtureTarget}.tar.gz`, 'ksf-core-release.json'].sort());
   const provenance = JSON.parse(entries.get('.ksf-template.json').bytes);
   assert.equal(provenance.product, 'ksf-workspace'); assert.equal(provenance.instance_default_name, 'ksf');
   assert.ok(entries.has('知识/.gitkeep'));
@@ -79,8 +83,8 @@ test('complete release includes the system and empty user skeleton, excluding pr
   assert.equal(installedManifest(result.template).core.revision, git(f.root, ['rev-parse', 'HEAD']));
   assert.equal(installedManifest(result.template).product, 'ksf-core');
   assert.equal(installedManifest(result.template).name, 'ksf-core');
-  assert.equal(lstatSync(join(result.template, '.agents/ksf')).mode & 0o777, 0o755);
-  const coreEntries = inspectCoreArchive(readFileSync(join(result.output, result.index.platforms['darwin-arm64'].core.name))).entries;
+  assert.equal(fileMode(join(result.template, '.agents/ksf')), 0o755);
+  const coreEntries = inspectCoreArchive(readFileSync(join(result.output, result.index.platforms[fixtureTarget].core.name))).entries;
   assert.ok([...coreEntries.keys()].every(path => path === 'AGENTS.md' || path === '.agents/ksf' || path === '.agents/ksf.ps1' || path.startsWith('.agents/core/')));
 });
 test('a custom-named user instance starts and upgrades independently of its template name', async t => {
@@ -88,11 +92,12 @@ test('a custom-named user instance starts and upgrades independently of its temp
   const instance = join(f.directory, '我的个人资料 实例');
   cpSync(f.first.template, instance, { recursive: true });
   writeAtomic(join(instance, '知识/private.md'), 'FICTIONAL_PRIVATE');
-  const launched = spawnSync('/bin/sh', [join(instance, '.agents/ksf'), 'hello', '--json'], {
+  const invocation=launcherInvocation(instance,['hello','--json']);
+  const launched = spawnSync(invocation.executable, invocation.args, {
     cwd: f.directory, encoding: 'utf8', timeout: 20000, env: { ...process.env, PATH: '', KSF_SKIP_AUTO_UPDATE: '1' },
   });
   assert.equal(launched.status, 0, launched.stderr);
-  assert.equal(JSON.parse(launched.stdout).runtime.ksfRoot.replace(/\/$/, ''), realpathSync(instance));
+  assert.equal(JSON.parse(launched.stdout).runtime.ksfRoot.replace(/[\\/]$/, ''), realpathSync.native(instance));
   await systemUpdate({ root: instance, from: next.coreArchive, api: new ForkAPI({ coreRoot: f.root }) });
   assert.equal(installedManifest(instance).version, '0.1.1');
   assert.equal(readFileSync(join(instance, '知识/private.md'), 'utf8'), 'FICTIONAL_PRIVATE');
@@ -124,7 +129,7 @@ test('a copied no-Git workspace starts through its fixed launcher from another c
 
 test('release validation accepts only the empty legacy originals placeholder and rejects unrelated extras', async t => {
   const f = await distributionFixture(t);
-  const descriptor = f.first.index.platforms['darwin-arm64'].workspace;
+  const descriptor = f.first.index.platforms[fixtureTarget].workspace;
   const archivePath = join(f.first.output, descriptor.name);
   const original = [...readArchive(readFileSync(archivePath)).values()];
   const cases = [
@@ -154,10 +159,10 @@ test('Core sources need no user directories while installed workspaces still val
   assert.deepEqual(objectQuery({ root: f.root, type: 'partner', operation: 'check', reference: 'partner.ksf.object-designer' }).errors, []);
   assert.equal(installedManifest(f.workspace).core.branch, 'main');
   assert.equal(existsSync(join(f.root, '能力')), false);
-  rmSync(join(f.workspace, '能力/工作流'), { recursive: true });
+  rmSync(join(f.workspace, '能力/协同'), { recursive: true });
   const incomplete = contextCapabilities(f.workspace);
-  assert.equal(incomplete.data.workflows.complete, false);
-  assert.ok(incomplete.errors.some(error => error.target === '能力/工作流'));
+  assert.equal(incomplete.data.cooperations.complete, false);
+  assert.ok(incomplete.errors.some(error => error.target === '能力/协同'));
 });
 test('distribution fixture reconstructs Core sources from an installed workspace', async t => {
   const source = await distributionFixture(t);
@@ -183,7 +188,7 @@ test('clean releases are byte-for-byte reproducible, so a fresh CI retry reuses 
   const f = await distributionFixture(t);
   const second = await buildRelease({ root: f.root, output: join(f.directory, 'repeated-clean-build') });
   assert.deepEqual(second.index, f.first.index);
-  for (const item of Object.values(second.index.platforms['darwin-arm64'])) {
+  for (const item of Object.values(second.index.platforms[fixtureTarget])) {
     assert.deepEqual(readFileSync(join(second.output, item.name)), readFileSync(join(f.first.output, item.name)));
   }
 });
@@ -191,7 +196,7 @@ test('symlinked system inputs and tampered published artifacts are rejected', as
   const f = await distributionFixture(t);
   symlinkSync(join(f.root, 'AGENTS.md'), join(f.root, '.agents/core/symlink'));
   await assert.rejects(buildRelease({ root: f.root, output: join(f.directory, 'unsafe'), allowDirty: true }), { code: 'UNSAFE_PATH' });
-  const descriptor = f.first.index.platforms['darwin-arm64'].core;
+  const descriptor = f.first.index.platforms[fixtureTarget].core;
   writeFileSync(join(f.first.output, descriptor.name), 'tampered');
   assert.throws(() => inspectReleaseDirectory(f.root, f.first.output), { code: 'RELEASE_INVALID' });
 });
@@ -211,7 +216,7 @@ for (const [command, args] of [
 
 test('verified legacy workspace layouts remain valid and generated documents must match their Core sources', async t => {
   const f = await distributionFixture(t), index = structuredClone(f.first.index);
-  const platform = index.platforms['darwin-arm64'];
+  const platform = index.platforms[fixtureTarget];
   const core = readArchive(readFileSync(join(f.first.output, platform.core.name)));
   const workspace = readArchive(readFileSync(join(f.first.output, platform.workspace.name)));
   const save = (descriptor, entries) => {
@@ -240,6 +245,9 @@ test('verified legacy workspace layouts remain valid and generated documents mus
     workspace.get('.agents/core/release.json').bytes = Buffer.from(stableJSON(releaseReceipt(manifest)));
     save(platform.core, core); save(platform.workspace, workspace);
   };
+  // Old releases did not contain knowledge rules or cognition template sources.
+  removeDocuments(knowledgeFrameworkFiles);
+  assert.equal(inspectReleaseDirectory(f.root, f.first.output).workspaces[0].entries.has('知识/rules/README.md'), false);
   // Previous knowledge/archive layout, before the three collaboration templates.
   removeDocuments(['USER.md', 'BOT.md', 'MEMORY.md']);
   assert.equal(inspectReleaseDirectory(f.root, f.first.output).workspaces[0].entries.has('档案/archive.md'), true);

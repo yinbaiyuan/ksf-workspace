@@ -1,3 +1,5 @@
+import {platform,launcherInvocation} from '../src/platform/index.js';
+import {linkOrCopy} from './helpers/platform.js';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
@@ -6,10 +8,11 @@ import {
   realpathSync, rmSync, symlinkSync, writeFileSync,
 } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, relative } from 'node:path';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { buildManifest } from '../src/services/build-manifest.js';
+import { developmentPath } from '../src/distribution/paths.js';
 
 const repo = fileURLToPath(new URL('../../../../', import.meta.url));
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -28,8 +31,8 @@ function fixture(t, { license = true, symlinkNode = false } = {}) {
   mkdirSync(join(root, '.agents/core/runtime/src'), { recursive: true });
   writeFileSync(join(root, '.agents/core/runtime/src/cli.js'), '// system source fixture\n');
   const archivePath = `.agents/core/runtime/packages/${archiveRoot}.tar.gz`;
-  const packed = spawnSync('/usr/bin/tar', ['-czf', join(root, archivePath), '-C', join(root, 'contents'), archiveRoot],
-    { encoding: 'utf8', env: { ...process.env, LC_ALL: 'C' } });
+  const packed = spawnSync(platform.tool('tar'), ['-czf', relative(join(root, 'contents'), join(root, archivePath)).replaceAll('\\','/'), archiveRoot],
+    { cwd: join(root, 'contents'), encoding: 'utf8', env: { ...process.env, LC_ALL: platform.name === 'win32' ? 'C.UTF-8' : 'C' } });
   assert.equal(packed.status, 0, packed.stderr);
   const config = { schema_version: 1, name: 'ksf-core', version: null,
     runtime: { version: '99.0.0', release_channel: 'lts', packages: {
@@ -147,19 +150,20 @@ test('real ksf build recreates a missing or malformed manifest without global No
   const root = realpathSync(mkdtempSync(join(tmpdir(), 'ksf clean build 测试 ')));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   mkdirSync(join(root, '.agents'), { recursive: true });
-  cpSync(join(repo, '.agents/ksf'), join(root, '.agents/ksf'));
+  for(const launcher of ['ksf','ksf.ps1'])cpSync(join(repo,'.agents',launcher),join(root,'.agents',launcher));
   cpSync(join(repo, '.agents/core/runtime'), join(root, '.agents/core/runtime'), {
-    recursive: true, filter: path => !path.includes('/packages') && !path.includes('/tests'),
+    recursive: true, filter: path => !path.replaceAll('\\','/').includes('/packages') && !path.replaceAll('\\','/').includes('/tests') && !developmentPath(path.slice(repo.length).replaceAll('\\', '/')),
   });
+  cpSync(join(repo, '.agents/core/applications/sdk'), join(root, '.agents/core/applications/sdk'), { recursive:true, filter:path=>!developmentPath(path.slice(repo.length).replaceAll('\\','/')) });
   cpSync(join(repo, '.agents/core/build.json'), join(root, '.agents/core/build.json'));
   const config = JSON.parse(readFileSync(join(root, '.agents/core/build.json'), 'utf8'));
   for (const item of Object.values(config.runtime.packages)) {
     mkdirSync(join(root, '.agents/core/runtime/packages'), { recursive: true });
-    linkSync(join(repo, item.archive_path), join(root, item.archive_path));
+    linkOrCopy(join(repo, item.archive_path), join(root, item.archive_path));
   }
-  const run = args => spawnSync(join(root, '.agents/ksf'), args, {
-    encoding: 'utf8', cwd: '/tmp', env: { ...process.env, PATH: '' }, timeout: 30_000,
-  });
+  const run = args => {const command=launcherInvocation(root,args);return spawnSync(command.executable,command.args,{
+    encoding:'utf8',cwd:tmpdir(),env:{...process.env,PATH:''},timeout:30000,
+  });};
   const output = join(root, '.agents/core/manifest.yaml');
   assert.equal(existsSync(output), false);
   const first = run(['build', '--json']);
@@ -184,4 +188,13 @@ test('real ksf build recreates a missing or malformed manifest without global No
   assert.equal(failed.stdout, '');
   assert.deepEqual(readFileSync(output), before);
   assert.ok(generated.length > 0);
+});
+
+test('frontend dependency installations and caches do not affect the managed Core source hash', async t => {
+  const f = fixture(t), first = (await buildManifest(f.root)).manifest.build.source_sha256;
+  for (const name of ['node_modules', '.vite', 'coverage', 'test-results', '.impeccable/review']) {
+    const path = join(f.root, '.agents/core/runtime/web', name); mkdirSync(path, { recursive: true }); writeFileSync(join(path, 'cache.js'), 'local development data');
+  }
+  symlinkSync('/etc/passwd', join(f.root, '.agents/core/runtime/web/node_modules/ignored-link'));
+  assert.equal((await buildManifest(f.root)).manifest.build.source_sha256, first);
 });

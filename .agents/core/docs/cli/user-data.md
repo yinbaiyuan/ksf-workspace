@@ -13,6 +13,8 @@
 
 系统命名空间由 Core 注册并逐字段校验，当前包括 `settings`、`identity` 和 `sources`。能力对象另通过 `--object <id>` 使用通用 JSON 配置空间，无须逐个注册字段。两者均不承接任务正文、成果、知识、登录凭据或能力定义，也不增加第五类能力对象。
 
+当前聊天的动态运行变量与轮次使用独立 [chat](chat.md) 命令，数据在 `.agents/user-data/chats/`，不混入跨聊天的 abilities 配置。user-data list 将 chats 识别为独立功能目录，不展开聊天变量。
+
 入口文件保持原有职责；除模板生成的空目录占位外，首次真实写入时才创建命名空间文件。读取、检查和缺失目标均不自动创建配置文件。
 
 ## 调用
@@ -41,7 +43,7 @@ namespace 为已注册名称，不接受文件路径。支持命令级及操作�
 
 ## 能力对象配置与必要状态
 
-四类对象（workflow、partner、competency、data-package）均可使用，包含固定入口及关联能力源；无需先安装对象或声明字段。`--object` 只接受完整三段 ID，不接受路径、`@version` 或同时指定命名空间。数据按 ID 延续，不按来源、版本或目录分别保存；更换 ID 使用新的空间。
+四类对象（cooperation、partner、competency、data-package）均可使用，包含固定入口及关联能力源；无需先安装对象或声明字段。`--object` 只接受完整三段 ID，不接受路径、`@version` 或同时指定命名空间。数据按 ID 延续，不按来源、版本或目录分别保存；更换 ID 使用新的空间。
 
 ```sh
 .agents/ksf user-data list --objects --json
@@ -63,7 +65,7 @@ write 合并顶层字段，每个嵌套值整体替换，null 是保留的值。
 
 采用与覆盖规则见[系统级用户数据](../system/user-data.md#能力对象的持久数据)。这是通用存储与 Agent 使用约定，不是自动执行对象或自动学习用户偏好的后台服务。
 
-## 第一版 settings
+## settings
 
 可写值：
 
@@ -79,6 +81,8 @@ write 合并顶层字段，每个嵌套值整体替换，null 是保留的值。
 两个字段都可省略。检查间隔必须为不小于 60 的安全整数秒；请求超时必须为 1—60 的整数秒。不接受自动更新开关、发行身份、密钥、绝对路径、任务正文或其他未定义字段。
 
 有效值由 Core 默认配置加用户覆盖组成：显式 system 命令读取 settings.updates；省略字段回到 `.agents/core/distribution.json` 的默认值。程序不改写默认配置。`updates` 是一个顶层字段，因此写入 `{"updates":{"request_timeout_seconds":20}}` 会替换旧 updates 映射；旧映射中未再提供的检查间隔回到默认。写入 `{}` 保持现有覆盖不变；删除 settings 文件则清除全部覆盖。
+
+另支持 `routing: {"enabled": false}`，enabled 必须为布尔值，缺省为 true。它控制 [route start/write](route.md) 是否保存 Agent 上报；关闭时零路由写入，read/list 和 Web 仍可读取既有记录。routing 是独立顶层字段，不影响 updates；任务简述和路由历史不存入 settings。
 
 检查间隔只约束用户显式调用 `system sync` 的间隔；普通启动和读取仍不访问版本源或自动升级。Core 构建与发布读取系统默认配置，不读取或合并维护者的 user-data。
 

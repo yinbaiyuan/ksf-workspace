@@ -52,13 +52,14 @@ function ksfVersion(root) {
 function view(row, part) {
   const result = { id: row.id, source: row.source, path: row.path, directory: row.directory,
     ...(row.sourceRoot ? { source_root: row.sourceRoot } : {}),
-    version: row.metadata.version, user_revision: row.metadata.user_revision ?? null, protected: Object.hasOwn(protectedPaths, row.id) };
+    version: row.metadata.version, user_revision: row.metadata.user_revision ?? null, definition_digest: row.digest, protected: Object.hasOwn(protectedPaths, row.id) };
   if (part !== 'body') result.metadata = row.metadata;
   if (part !== 'metadata') result.body = row.parsed.body.toString('utf8');
   return result;
 }
 
 export function objectQuery({ root, type, operation, reference, source = 'effective', part = 'all', sourceScope }) {
+  if (type === 'workflow') fail('OBJECT_TYPE_RENAMED', 'Use the cooperation type; migrate existing data with ksf cooperation migrate --apply.', { replacement: 'cooperation', exitCode: 2 });
   if (!Object.hasOwn(types, type) || !['list', 'read', 'check'].includes(operation) ||
       (!['effective', 'system', 'user', ...(operation === 'list' ? ['all'] : [])].includes(source) && !validSourceId(source)) || !['metadata', 'body', 'all'].includes(part)) fail('INVALID_ARGUMENTS', 'Invalid object query.', { exitCode: 2 });
   root = canonicalRoot(root);
@@ -109,6 +110,7 @@ export function objectQuery({ root, type, operation, reference, source = 'effect
 }
 
 export function objectMutation({ root, type, operation, id, input = {}, dryRun = false }, { beforePublish, cleanup } = {}) {
+  if (type === 'workflow') fail('OBJECT_TYPE_RENAMED', 'Use the cooperation type; migrate existing data with ksf cooperation migrate --apply.', { replacement: 'cooperation', exitCode: 2 });
   if (!Object.hasOwn(types, type) || !['write', 'remove'].includes(operation) || typeof dryRun !== 'boolean') fail('INVALID_ARGUMENTS', 'Invalid object mutation.', { exitCode: 2 });
   if (operation === 'write') validateObjectInput(input);
   root = canonicalRoot(root);

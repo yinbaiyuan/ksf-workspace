@@ -1,3 +1,4 @@
+import{platform}from'../src/platform/index.js';
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { mkdtempSync, mkdirSync, rmSync, writeFileSync, readFileSync, existsSync, readdirSync, symlinkSync, readlinkSync, realpathSync } from 'node:fs';
@@ -54,23 +55,23 @@ test('archive preview writes nothing and round-trip preserves bodies, binaries, 
   assert.equal(f.run('read').data.project.metadata.archive_history.length, 4);
 });
 
-test('knowledge presets and engineering associations resolve from the actual root-card directory in both scopes', t => {
+test('ability presets stay unchanged while engineering associations rebase in both scopes', t => {
   const f = fixture(t);
   mkdirSync(join(f.root, '知识')); writeFileSync(join(f.root, '知识/依据.md'), '# 依据\n');
   const created = repository({ root: f.root, operation: 'create', target: '工程' });
   assert.equal(created.data.created, true);
   repository({ root: f.root, operation: 'link', target: 'repositories/工程', projectName: '甲' });
-  f.run('write', '甲', { data: { metadata: { routing: { knowledge: ['../../知识/依据.md'] } } } });
+  f.run('write', '甲', { data: { metadata: { routing: { partners: [] } } } });
   f.run('archive', '甲', { reason: '结案' });
   const card = f.run('read', '甲', { scope: 'archived' }).data.project;
-  assert.deepEqual(card.metadata.routing.knowledge, ['../../../知识/依据.md']);
+  assert.deepEqual(card.metadata.routing, { partners: [] });
   assert.deepEqual(card.metadata.repositories, ['../../../repositories/工程']);
   assert.equal(f.run('check', '甲', { scope: 'archived' }).data.valid, true);
   assert.equal(repository({ root: f.root, operation: 'check', projectName: '甲', scope: 'archived' }).data.valid, true);
   repository({ root: f.root, operation: 'unlink', target: 'repositories/工程', projectName: '甲', scope: 'archived' });
   repository({ root: f.root, operation: 'link', target: 'repositories/工程', projectName: '甲', scope: 'archived' });
   f.run('restore');
-  assert.deepEqual(f.run('read').data.project.metadata.routing.knowledge, ['../../知识/依据.md']);
+  assert.deepEqual(f.run('read').data.project.metadata.routing, { partners: [] });
   assert.equal(repository({ root: f.root, operation: 'check', projectName: '甲' }).data.valid, true);
   assert.equal(existsSync(join(f.root, 'repositories/工程/.git')), true);
 });
@@ -159,7 +160,7 @@ for (const stage of ['moved', 'card-staged', 'card-written']) test(`real SIGKILL
   const f = fixture(t), url = new URL('../src/services/projects.js', import.meta.url).href;
   const code = `import { project } from ${JSON.stringify(url)}; project({root:${JSON.stringify(f.root)},operation:'archive',name:'甲',reason:'fixture'}, {fault(stage){if(stage===${JSON.stringify(stage)}) process.kill(process.pid,'SIGKILL');}});`;
   const child = spawnSync(process.execPath, ['--input-type=module', '-e', code], { encoding: 'utf8', timeout: 10000 });
-  assert.equal(child.signal, 'SIGKILL', child.stderr);
+  if(platform.name==='win32')assert.equal(child.status,1,child.stderr);else assert.equal(child.signal, 'SIGKILL', child.stderr);
   const operationId = f.pending();
   const recovered = runProjectCommand(['recover', operationId], f.root);
   assert.equal(recovered.exitCode, 0, recovered.stdout);
@@ -176,4 +177,19 @@ test('archive CLI scopes and transition options remain strict and return the exi
   assert.throws(() => parseRepositoryArgs(['list', '--scope', 'archived']));
   const result = runProjectCommand(['archive', '甲', '--reason', '结束', '--dry-run', '--json'], f.root);
   assert.equal(result.exitCode, 0); assert.equal(JSON.parse(result.stdout).data.wouldChange, true);
+});
+
+
+for (const scope of ['current', 'archived']) test(`removed knowledge blocks ${scope} transition before moving any files`, t => {
+  const f = fixture(t);
+  if (scope === 'archived') f.run('archive', '甲', { reason: '结束' });
+  const folder = join(f.root, scope === 'current' ? '项目/甲' : '档案/项目/甲');
+  const card = join(folder, 'project.md');
+  const original = readFileSync(card, 'utf8');
+  writeFileSync(card, original.replace('---\n', '---\nrouting:\n  knowledge:\n    - ../../知识/不读取.md\n'));
+  const before = readFileSync(card);
+  assert.throws(() => f.run(scope === 'current' ? 'archive' : 'restore', '甲', { reason: '完成' }), error =>
+    error.code === 'PROJECT_ROUTING_INVALID' && error.details.issues[0].code === 'PROJECT_ROUTING_KNOWLEDGE_REMOVED');
+  assert.deepEqual(readFileSync(card), before);
+  assert.equal(existsSync(join(f.root, scope === 'current' ? '档案/项目/甲' : '项目/甲')), false);
 });

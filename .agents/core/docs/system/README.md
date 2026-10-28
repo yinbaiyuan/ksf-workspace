@@ -26,7 +26,11 @@ flowchart TD
     Service --> Files["系统资产、用户文件及本机状态"]
 ```
 
-Windows 当前实现到固定入口的独立恢复和 Core 转交契约；图中的 Windows bootstrap、Node 和后续业务 CLI 尚未接入。`hello`、`build`、`test`、`runtime verify` 等简单命令由 cli.js 直接处理，其他命令按各自适配层分发。普通启动只准备本地环境和恢复已发起事务，不检查远程版本或自动升级。
+Windows x64 已接入固定入口、PowerShell bootstrap、随包 Node ZIP 和同一套业务 CLI，平台边界见 [双平台架构](../runtime/platforms.md)。`hello`、`build`、`test`、`runtime verify` 等简单命令由 cli.js 直接处理，其他命令按各自适配层分发。普通启动只准备本地环境和恢复已发起事务，不检查远程版本或自动升级。
+
+[`web`](../cli/web.md) 通过同一启动器和随包 Node 提供前台本地 HTTP 服务，提供随包路由页、只读查询及健康接口，不暴露工作区目录或运行 Agent；命令适配层管理参数和启停，服务层持有 HTTP 路由与连接生命周期。
+
+路由记录由 [route](../cli/route.md) 的服务与存储层持有，位于 runtime-data/routing/v1。Agent 明确上报，CLI 与 Web 共用查询规则；关闭 Web 不影响记录。快照与有限历史不是项目检查点或完整聊天，KSFAssistant 适配后续进行。
 
 ## 目录与所有权
 
@@ -35,10 +39,10 @@ Windows 当前实现到固定入口的独立恢复和 Core 转交契约；图中
 | 根 `USER.md`、`BOT.md`、`MEMORY.md` | 用户长期设定、Agent 协作方式与短期续接 | 用户内容，由 runtime 完整读取；不属于 Core 或对象 user-data，升级回滚不补写、不覆盖 |
 | 根 `AGENTS.md` | Agent 运行入口 | 系统管理，发行与升级按基线处理 |
 | `.agents/ksf`、`.agents/ksf.ps1` | 原生启动、恢复与 Core 转交 | 位于 Core 外，保持小而稳定；变化时仍可随发行更新 |
-| `.agents/core/abilities/` | 系统工作流、搭档、基本功和数据包 | 随 Core 发行；业务定义规则见对象文档 |
+| `.agents/core/abilities/` | 系统协同、搭档、基本功和数据包 | 随 Core 发行；业务定义规则见对象文档 |
 | `.agents/core/runtime/` | bootstrap、JavaScript 程序、随包 Node 压缩包及测试 | 随 Core 发行，已安装 Node 位于 runtime-data |
 | `.agents/core/docs/` | 系统规范、命令契约及维护说明 | 随 Core 发行，本目录属于这一层 |
-| `.agents/core/distribution/` | 用户模板源和模板同步工作流源 | 由发行程序生成用户模板 |
+| `.agents/core/distribution/` | 用户模板源和模板同步协同源 | 由发行程序生成用户模板 |
 | `.agents/runtime-data/` | 本机运行时、锁、检查记录、事务、备份、贡献计划和构建输出 | 本机状态，默认不进入 Git；不同子项有不同清理条件 |
 | `.agents/user-data/` | KSF 程序自身的用户设置和必要状态，含 settings、本地 identity 与能力源关联 sources | 用户实例所有，可备份迁移；Core 不收录个人值，升级回滚不覆盖 |
 | `repositories/` | 默认实际工程及工程自身 Git 历史 | 外层 KSF Git 忽略，容器自身不初始化 Git；工程与外层历史隔离，已有外部工程可原位关联 |
@@ -46,7 +50,7 @@ Windows 当前实现到固定入口的独立恢复和 Core 转交契约；图中
 
 Core 源码与用户实例采用不同的忽略规则。Core 忽略真实用户数据；用户模板允许正式个人内容及 user-data 入库，排除 runtime-data 和相应临时文件。Git 忽略规则不等于网盘同步规则，也不能清除已经提交的历史内容。
 
-Agent 的整体调度、三路由返回、无项目/能力/知识缺口及局部重规划见[核心运行与三路由协作](../runtime/routing.md)。这是 Agent 采用的运行约定，不是新增语义调度服务。
+Agent 的整体调度、项目与能力路由返回、能力约定的资料读取、无项目/能力/资料缺口及局部重规划见[核心运行、项目与能力路由协作](../runtime/routing.md)。这是 Agent 采用的运行约定，不是新增语义调度服务。
 
 项目的最小继续信息按[任务检查点约定](../runtime/task-checkpoints.md)保存在项目材料中，属于可备份的用户内容。当前没有后台任务服务或自动完整会话采集，未保存的信息仍依赖宿主会话。
 
@@ -81,8 +85,12 @@ Agent 的整体调度、三路由返回、无项目/能力/知识缺口及局部
 
 程序入口见 [cli.js](../../runtime/src/cli.js)，身份与管理范围见 [products.js](../../runtime/src/distribution/products.js)，Agent 行为入口见 [ksf-runtime](../../abilities/partners/ksf-runtime/partner.md)。
 
-跨模块验证见 [lifecycle.test.js](../../runtime/tests/lifecycle.test.js)、[minimal-runtime.test.js](../../runtime/tests/minimal-runtime.test.js)；各专题链接更细的测试。本目录介绍现有架构，不表示 Windows 完整业务 CLI、Linux 支持、自动同步用户数据或长期运行效果已验证。
+跨模块验证见 [lifecycle.test.js](../../runtime/tests/lifecycle.test.js)、[minimal-runtime.test.js](../../runtime/tests/minimal-runtime.test.js)；各专题链接更细的测试。本目录介绍现有架构，不表示全部 Windows 业务、Linux 支持、自动同步用户数据或长期运行效果已验证；实机覆盖以验收报告为准。
 
 ## 独立能力源
 
 [source](../cli/source.md) 通过已登记路径直接读取独立 Git 仓库当前工作树。协议、源身份、依赖绑定与隔离见[能力源协议](../sources.md)。系统内置能力负责 KSF 支持，专业/业务能力可由个人或能力源承载。源正文和 Git 历史独立保管，不进入 Core、父实例 Git 或 runtime-data 快照。
+
+## Codex 聊天任务档案
+
+[task](../cli/task.md) 将启用后的原生轮次归档到 `档案/对话/Codex/`，游标和基线留在 task-capture 运行目录。声明服务只读核验项目与能力并返回签名回执，采集器读取宿主可见消息和回执；当前路由由原件投影，旧记录不迁移。Web 前台服务启动及运行时补采，关闭后项目 Hooks 和 CLI 仍可独立工作。

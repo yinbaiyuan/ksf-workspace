@@ -1,0 +1,13 @@
+{
+  "protocol": "ksf-web-build-v1",
+  "sourceDigest": "0cf4889d8cf20c6bc6a14c4c7cf61061cda6c3913cb95204253242fd922910b4",
+  "files": {
+    "THIRD_PARTY_NOTICES.txt": "a883af269bbef4d16dc41f894449f0174fdbdda0d4ef80a17a2f6cd8d729c619",
+    "assets/app-store-C5qhXk7S.css": "546fdd18cf2f78228cea8b0aae9b121ca91e0be48cb9f6ae6bb3e8918100243a",
+    "assets/app-store-C9avCTBA.js": "d30cbd80a083ef20919d383f9c63eec806e6486641eb89808b4881428f2ff990",
+    "assets/index-Bg1K872Y.css": "3796f4c408c5ff09d2cb6d58b7523731769ac5db06d60a815de9ee3ce5acb89f",
+    "assets/index-DfNmCs89.js": "72d724615e47f69ad10a403acd07ab257d91306a90b9d112620f57781b0c8e93",
+    "assets/summit-dawn-CjlLNYcC.jpg": "dd9b90dc4c3af6f5e20cec81f7210ca8b08fa7dd29531b5de2c1e37d1340a2b2",
+    "index.html": "beb91b8ebb8400b5bf6241503ec84784f58eb94d6a47915fdc97a25bf4c8e504"
+  }
+}

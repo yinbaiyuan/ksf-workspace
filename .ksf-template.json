@@ -3,6 +3,6 @@
   "product": "ksf-workspace",
   "instance_default_name": "ksf",
   "generated_from": "yinbaiyuan/ksf-core",
-  "revision": "0bda2cb639f73017a2c2063ba6ab150323429e72",
-  "version": "0.1.3"
+  "revision": "677162b055cda77e8dcb1b8a14ebd49ba018d850",
+  "version": "0.2.0"
 }
