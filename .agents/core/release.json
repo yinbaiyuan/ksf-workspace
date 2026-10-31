@@ -3,12 +3,12 @@
   "launcher_protocol": 1,
   "name": "ksf-core",
   "product": "ksf-core",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "platform": "darwin-arm64",
   "core": {
     "repository": "yinbaiyuan/ksf-core",
     "branch": "main",
-    "revision": "756448b6d3902df2c00b0f81fbba5a4c349a3992"
+    "revision": "855eed050c63f092812cb40ded8416db433ec7ed"
   },
   "development": false
 }
